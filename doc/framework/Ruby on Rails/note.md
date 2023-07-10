@@ -117,6 +117,19 @@
   * `attempts`オプションはリトライ回数を指定できる
   * `discard_on`はオプションはなく、キャッチしたい例外クラス（複数可）を指定できる
   * 両メソッドとも引数にブロックを渡すことができるので、ブロック内で処理を書くことができる
+
+## 5-3　Action Mailerによるメール送信
+* メイラー、ビュー、設定を規則に沿って実装することができる
+* ApplicationMailerを継承し、実装する
+* `UserMailer.with(to:, name:).定義したメソッド.deliver_now`で呼び出す
+* `with`メソッドの引数で渡した値は、呼び出し先で`params`として使用できる
+* @nameなどインスタンス変数としてcontroller同様、ビューに値を渡すことができる
+* `mail`メソッドを呼び出すとHTMLとテキストの2種類のテンプレートを探し、multipart/alternative形式のメールを作成する
+* `deliver_now`は同期的にメールを送信するメソッド
+* `deliver_later`は非同期でメールを送信するメソッド
+  * `deliver_later`はActive Jobを使用しているので、キューの永続化など注意が必要
+* Action MailerのテストはActionMailer::TestCaseクラスを継承し作成する
+
 # 6章　Railsアプリケーション開発
 ## 6-7　登録されたイベントへの参加機能，参加キャンセル機能を作る
 * どんな時にヘルパーを使うか
