@@ -162,4 +162,15 @@
 
 # 8章　Railsアプリケーション拡張
 ## 8-1　ファイルアップロード機能を作る
-* Active Storage
+* Active Storageの下準備
+  * bin/rails active_storage:installコマンド実行
+  * config/storage.ymlとconfig.active_storage.serviceの設定で保存先を変えられる
+* formの作成
+  * 既に保存済みの画像があるかどうかはattached?メソッドで確認できる
+* 関連したモデルが削除された時の制御
+  * モデルのhas_one_attachedのオプションでdependent: falseをつけると関連するActiveStorage::Attachementのみが削除される
+* バリデーション
+  * Active Storageにはバリデーション用のメソッドがないので、gemを利用する
+  * Active Storage Validations gemを利用すると、Active RecordのカラムにバリデーションをかけるようにActive Storage経由でアップロードされたファイルにバリデーションをかけることができる
+
+## 8-2　gemで機能拡張をする
