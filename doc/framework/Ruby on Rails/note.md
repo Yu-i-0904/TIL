@@ -174,3 +174,15 @@
   * Active Storage Validations gemを利用すると、Active RecordのカラムにバリデーションをかけるようにActive Storage経由でアップロードされたファイルにバリデーションをかけることができる
 
 ## 8-2　gemで機能拡張をする
+* Kaminari gemでページネーションを機能を作る
+  * Kaminariを入れるとpageとperメソッドが使えるようになる
+  * pageメソッドには現在のページ数を渡す
+  * perメソッドには何件で分割するかを渡す（デフォルトは25件）
+  * ビューで`paginate @event`とすることでページネーション用のリンクｇ生成される
+
+##  8-3　落穂ひろい
+* rescue_fromを使用したエラーハンドリング
+  * rescue_fromを使用して、特定の例外クラスが発生したときに処理を実行することができる
+  * `rescue_from ActiveRecord::RecordNotFound, with: :error_404`のように記述する
+  * `rescue_from Exception`が下にあると全てのエラーがマッチしてしまうので注意する
+  * ルーティングに設定されていないURLがリクエストされた場合のエラーはrescue_fromでキャッチできない
