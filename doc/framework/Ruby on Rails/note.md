@@ -186,8 +186,6 @@
   * `rescue_from ActiveRecord::RecordNotFound, with: :error_404`のように記述する
   * `rescue_from Exception`が下にあると全てのエラーがマッチしてしまうので注意する
   * ルーティングに設定されていないURLがリクエストされた場合のエラーはrescue_fromでキャッチできない
-[:W
-]
 ## 9章　コード品質を上げる
 ## 9-1　CI（継続的インテグレーション）
 * GitHub Actions
