@@ -230,3 +230,35 @@
 ## 12-1　ユースケースとモデル
 * RailsはURLで表されるリソースとデータベースのテーブルの一対一関係を前提として、モデルに異なる2種類のロジック（バリデーションやコールバックなど）を実装できるようにしている
 * 機能要求が複雑になるにつれて上記は機能しなくなる（URLで表されるリソースとデータベースのテーブルの一対一関係が崩れるため）
+## 12-2　データベースと紐づかないモデルを作る
+* ユースケースのロジックを分離する
+  * 複雑な機能要求を実装するレイヤーとして定義する
+  * Serviceクラスよりモデルと密に連携するコントローラーやビューのメソッドの恩恵を受けれる
+  * しかし、レールからは外れるためRailsから受けられる恩恵は小さくなる
+* ActiveModel
+  * モデルに関するモジュール群を提供するライブラリ
+  * 自分で定義した素のRubyクラスにもActiveRecordと同党のインターフェースや機能を追加できる
+  * データベースに紐づかないモデルのようなもの
+  * ActiveModel::Attributes
+    * 型を持つ属性の定義を用意にしてくれるモジュール
+    * 型に合わない値を設定すると自動で型変換を行う
+    * クラス内でincludeするだけで使用可能
+  * ActiveModel::Callbacks
+    * コールバック機能の実現を容易にしてくれるモジュール
+    * `define_model_callbacks`メソッドでコールバックの対象となるメソッド名を指定する
+    * 設定したコールバックを実行するには、コールバック対象のメソッド内で`run_callbacks`メソッドのブロックう必要がある
+  * ActiveModel::Serialization
+    * オブジェクトのシリアライズ機能の実装を容易にしてくれるモジュール
+    * オブジェクトをハッシュに変換する`serializable_hash`のみ提供されている
+    * ActiveModel::Serializationをincludeしただけでは使用できず、`attributes`というインスタンスメソッドが定義されていることが前提
+    * `attributes`メソッドはシリアライズの必要がある属性名の文字列をキーとするハッシュを返す必要がある
+  * ActiveModel::Valications
+    * 属性のバリデーション機能の実装を容易にしてくれるモジュール
+    * `validates_uniqueness_of`のようなデーターベースのレコードを参照するヘルパーを除いてActiveRecordと同じバリデーションヘルパーが提供されている
+    * ActiveModel::Validationsをincludeするだけで使用可能
+    * `before_validation`、`after_validation`コールバックは使用できない（これらを使用するにはActiveModel::Validations::Callbacksをincludeする
+    * あらかじめ組み込まれているバリデーションヘルパーは`validates_absence_of`や`validates`メソッドの呼び出し時のオプションに指定して利用する
+  * ActiveModel::Model
+    * ActiveModelが提供するモジュールを一部にまとめたモジュール
+    * ActiveModel::Modelをincludeするだけでオブジェクトをコントローラやビューのメソッドで利用できるようになる
+    * また、ActiveRecordのようにオブジェクトを属性のハッシュで初期化したりバリデーションを設定して実行できるようになる
